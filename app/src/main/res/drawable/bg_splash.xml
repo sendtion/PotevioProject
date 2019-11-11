@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<item android:drawable="@color/color_f" />-->
+    <!--因为使用最长图做适配，所以这里不会有需要填充的地方，所以上面注释掉-->
+    <!--<item android:scaleType="fitXY">-->
+        <!--<bitmap android:src="@mipmap/img_splash" />-->
+    <!--</item>-->
+
+    <item android:drawable="@color/color_f" />
+    <item android:bottom="20dp">
+        <bitmap android:gravity="bottom|center" android:src="@mipmap/icon_video_player" />
+    </item>
+    <item android:top="20dp">
+        <bitmap android:gravity="center|top" android:src="@mipmap/icon_video_player" />
+    </item>
+    <item android:top="20dp" android:right="20dp">
+        <bitmap android:gravity="center|right|top" android:src="@mipmap/icon_video_player" />
+    </item>
+</layer-list>
