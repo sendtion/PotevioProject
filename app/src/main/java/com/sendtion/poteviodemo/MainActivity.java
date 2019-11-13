@@ -10,16 +10,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sendtion.poteviodemo.adapter.BaseRecyclerAdapter;
 import com.sendtion.poteviodemo.adapter.RecyclerViewHolder;
+import com.sendtion.poteviodemo.entry.ArticleDataEntry;
 import com.sendtion.poteviodemo.entry.TestDataEntry;
+import com.sendtion.poteviodemo.http.BaseObserver;
+import com.sendtion.poteviodemo.http.BaseResponse;
 import com.sendtion.poteviodemo.http.HttpService;
 import com.sendtion.poteviodemo.http.LogInterceptor;
+import com.sendtion.poteviodemo.http.RetrofitUtils;
+import com.sendtion.poteviodemo.http.RxHelper;
 import com.sendtion.poteviodemo.util.Utils;
+import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.internal.observers.BlockingBaseObserver;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Call;
@@ -35,8 +47,8 @@ public class MainActivity extends BaseActivity implements BaseRecyclerAdapter.On
 
     private static final int TIME_OUT = 30; //超时时间
 
-    private BaseRecyclerAdapter<TestDataEntry.DataBean.DatasBean> mAdapter;
-    private List<TestDataEntry.DataBean.DatasBean> mItems;
+    private BaseRecyclerAdapter<ArticleDataEntry.DatasBean> mAdapter;
+    private List<ArticleDataEntry.DatasBean> mItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +64,15 @@ public class MainActivity extends BaseActivity implements BaseRecyclerAdapter.On
     @Override
     protected void initView() {
         mItems = new ArrayList<>();
-        mAdapter = new BaseRecyclerAdapter<TestDataEntry.DataBean.DatasBean>(this, mItems) {
+        mAdapter = new BaseRecyclerAdapter<ArticleDataEntry.DatasBean>(this, mItems) {
             @Override
             public int getItemLayoutId(int viewType) {
                 return R.layout.list_item_home;
             }
 
             @Override
-            public void bindData(RecyclerViewHolder holder, int position, TestDataEntry.DataBean.DatasBean item) {
-                if (item !=null){
+            public void bindData(RecyclerViewHolder holder, int position, ArticleDataEntry.DatasBean item) {
+                if (item != null) {
                     String title = item.getTitle();
                     if (title != null) {
                         holder.setText(R.id.tv_article_title, title);
@@ -84,37 +96,17 @@ public class MainActivity extends BaseActivity implements BaseRecyclerAdapter.On
 
     @Override
     protected void initData() {
-        sendRequest();
+        HttpService service = RetrofitUtils.getInstance().getService();
+//        sendRequest(service);
+//        sendRequest1(service);
+//        sendRequest2(service);
+//        sendRequest3(service);
+        sendRequest4(service);
     }
 
-    //https://www.wanandroid.com/article/list/1/json
-    private void sendRequest(){
+    //发送请求
+    private void sendRequest(HttpService service) {
         showProgressDialog();
-
-        OkHttpClient httpClient = new OkHttpClient().newBuilder()
-                .readTimeout(TIME_OUT, TimeUnit.SECONDS)//设置读取超时时间
-                .writeTimeout(TIME_OUT, TimeUnit.SECONDS)//设置写入超时时间
-                .connectTimeout(TIME_OUT, TimeUnit.SECONDS)//设置请求超时时间
-                //.addInterceptor(new HttpLoggingInterceptor())//添加打印拦截器
-                .addInterceptor(new LogInterceptor())
-                .addInterceptor(chain -> {
-                    Request request = chain.request();
-                    request = request.newBuilder()
-                            .addHeader("User-Agent", getUserAgent())
-                            .build();
-                    return chain.proceed(request);
-                })
-                .retryOnConnectionFailure(true)//设置出现错误进行重新连接。
-                .build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(httpClient)//设置自定义okHttp
-                .baseUrl("https://www.wanandroid.com")//基地址
-                .addConverterFactory(GsonConverterFactory.create())//添加GSON解析
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())//添加Rxjava支持
-                .build();
-
-        HttpService service = retrofit.create(HttpService.class);
 
         Call<TestDataEntry> repos = service.listRepos(1);
 
@@ -124,11 +116,11 @@ public class MainActivity extends BaseActivity implements BaseRecyclerAdapter.On
                 dismissProgressDialog();
                 Log.e("---", "onResponse: " + response.body());
                 TestDataEntry data = response.body();
-                if (data != null){
-                    TestDataEntry.DataBean dataBean = data.getData();
+                if (data != null) {
+                    ArticleDataEntry dataBean = data.getData();
                     if (dataBean != null) {
-                        List<TestDataEntry.DataBean.DatasBean> datasBeans = dataBean.getDatas();
-                        if (datasBeans != null){
+                        List<ArticleDataEntry.DatasBean> datasBeans = dataBean.getDatas();
+                        if (datasBeans != null) {
                             Log.e("---", "datasBeans: " + datasBeans.size());
                             mAdapter.removeAll(mItems);
                             mAdapter.addAll(datasBeans);
@@ -145,25 +137,148 @@ public class MainActivity extends BaseActivity implements BaseRecyclerAdapter.On
         });
     }
 
-    //获取UserAgent
-    //Mozilla/5.0 (Linux; Android 9; STF-AL00 Build/HUAWEISTF-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/74.0.3729.136 Mobile Safari/537.36
-    private static String getUserAgent() {
-        String userAgent;
-        try {
-            userAgent = WebSettings.getDefaultUserAgent(Utils.getApp());
-        } catch (Exception e) {
-            userAgent = System.getProperty("http.agent");
-        }
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0, length = userAgent.length(); i < length; i++) {
-            char c = userAgent.charAt(i);
-            if (c <= '\u001f' || c >= '\u007f') {
-                sb.append(String.format("\\u%04x", (int) c));
-            } else {
-                sb.append(c);
-            }
-        }
-        return sb.toString();
+    private void sendRequest1(HttpService service) {
+        showProgressDialog();
+
+        service.listRepos1(1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(bindUntilEvent(ActivityEvent.DESTROY))//绑定生命周期
+                .subscribe(new Observer<TestDataEntry>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.e("---", "onSubscribe: " );
+                    }
+
+                    @Override
+                    public void onNext(TestDataEntry testDataEntry) {
+                        Log.e("---", "onNext: " );
+                        if (testDataEntry != null) {
+                            ArticleDataEntry dataBean = testDataEntry.getData();
+                            if (dataBean != null) {
+                                List<ArticleDataEntry.DatasBean> datasBeans = dataBean.getDatas();
+                                if (datasBeans != null) {
+                                    Log.e("---", "datasBeans: " + datasBeans.size());
+                                    mAdapter.removeAll(mItems);
+                                    mAdapter.addAll(datasBeans);
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("---", "onError: " );
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        dismissProgressDialog();
+                        Log.e("---", "onComplete: " );
+                    }
+                });
+    }
+
+    private void sendRequest2(HttpService service) {
+        showProgressDialog();
+
+        service.listRepos2(1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(bindUntilEvent(ActivityEvent.DESTROY))//绑定生命周期
+                .subscribe(new Observer<BaseResponse<ArticleDataEntry>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.e("---", "onSubscribe: " );
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<ArticleDataEntry> data) {
+                        Log.e("---", "onNext: " );
+                        if (data != null) {
+                            ArticleDataEntry dataBean = data.getData();
+                            if (dataBean != null) {
+                                List<ArticleDataEntry.DatasBean> datasBeans = dataBean.getDatas();
+                                if (datasBeans != null) {
+                                    Log.e("---", "datasBeans: " + datasBeans.size());
+                                    mAdapter.removeAll(mItems);
+                                    mAdapter.addAll(datasBeans);
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("---", "onError: " );
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        dismissProgressDialog();
+                        Log.e("---", "onComplete: " );
+                    }
+                });
+    }
+
+    private void sendRequest3(HttpService service) {
+        showProgressDialog();
+
+        service.listRepos2(1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(bindUntilEvent(ActivityEvent.DESTROY))//绑定生命周期
+                .subscribe(new BaseObserver<ArticleDataEntry>(){
+
+                    @Override
+                    public void onSuccess(ArticleDataEntry data) {
+                        dismissProgressDialog();
+                        Log.e("---", "onSuccess: " );
+                        if (data != null) {
+                            List<ArticleDataEntry.DatasBean> datasBeans = data.getDatas();
+                            if (datasBeans != null) {
+                                Log.e("---", "datasBeans: " + datasBeans.size());
+                                mAdapter.removeAll(mItems);
+                                mAdapter.addAll(datasBeans);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable e) {
+                        dismissProgressDialog();
+                        Log.e("---", "onFailure: " );
+                    }
+                });
+    }
+
+    private void sendRequest4(HttpService service) {
+        showProgressDialog();
+
+        service.listRepos2(1)
+                .compose(RxHelper.observableIO2Main(this))
+                .subscribe(new BaseObserver<ArticleDataEntry>(){
+
+                    @Override
+                    public void onSuccess(ArticleDataEntry data) {
+                        dismissProgressDialog();
+                        Log.e("---", "onSuccess: " );
+                        if (data != null) {
+                            List<ArticleDataEntry.DatasBean> datasBeans = data.getDatas();
+                            if (datasBeans != null) {
+                                Log.e("---", "datasBeans: " + datasBeans.size());
+                                mAdapter.removeAll(mItems);
+                                mAdapter.addAll(datasBeans);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable e) {
+                        dismissProgressDialog();
+                        Log.e("---", "onFailure: " );
+                    }
+                });
     }
 
     @Override

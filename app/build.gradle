@@ -16,12 +16,10 @@ android {
         versionCode 1
         versionName "1.0"
 
-        defaultConfig {
-            //分包1,指定某个类在maindex，例如LeakCanary启动的时候会初始化一个ContentProvider
-            multiDexEnabled true
-            multiDexKeepProguard file('multiDexKeep.pro') // 打包到main dex的这些类的混淆规制，没特殊需求就给个空文件
-            multiDexKeepFile file('maindexlist.txt') // keep specific classes
-        }
+        //分包1,指定某个类在maindex，例如LeakCanary启动的时候会初始化一个ContentProvider
+        multiDexEnabled true
+        multiDexKeepProguard file('multiDexKeep.pro') // 打包到main dex的这些类的混淆规制，没特殊需求就给个空文件
+        multiDexKeepFile file('maindexlist.txt') // keep specific classes
 
         ndk {
             abiFilters "armeabi-v7a"
@@ -80,6 +78,7 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
 
     implementation 'com.jakewharton:butterknife:10.2.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'

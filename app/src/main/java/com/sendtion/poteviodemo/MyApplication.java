@@ -22,7 +22,7 @@ public class MyApplication extends Application {
         Log.d(TAG, "attachBaseContext-getPackageName: " + base.getPackageName());
         Log.d(TAG, "attachBaseContext-getProcessName: " + SystemUtils.getProcessName(base));
 
-        boolean isMainProcess = isMainProcess(base);
+        boolean isMainProcess = SystemUtils.isMainProcess(base);
         Log.d(TAG, "attachBaseContext-isMainProcess: " + isMainProcess);
 
         //主进程并且vm不支持多dex的情况下才使用 MultiDex，主要针对5.0以下系统，低端手机启动会ANR问题
@@ -33,14 +33,10 @@ public class MyApplication extends Application {
 
     }
 
-    private boolean isMainProcess(Context context) {
-        return context.getPackageName().equals(SystemUtils.getProcessName(context));
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
-        if (!isMainProcess(this)){
+        if (!SystemUtils.isMainProcess(this)){
             Log.d(TAG, "onCreate: 非主进程，return");
             return;
         }
@@ -75,7 +71,6 @@ public class MyApplication extends Application {
         MainActivity mainActivity = new MainActivity();
         Log.d(TAG, "preNewActivity 耗时: " + (System.currentTimeMillis() - startTime));
     }
-
 
     //创建一个临时文件，MultiDex install 成功后删除
     private void newTempFile(Context context) {
