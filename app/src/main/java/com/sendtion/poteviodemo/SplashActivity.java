@@ -3,12 +3,12 @@ package com.sendtion.poteviodemo;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * 启动页
  */
-public class SplashActivity extends RxAppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

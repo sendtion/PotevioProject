@@ -71,6 +71,7 @@ public abstract class BaseObserver<T> implements Observer<BaseResponse<T>> {
                 errorMsg = "检查网络环境后重试";
             } else {//e.getMessage();
                 errorMsg = "网络出现错误，请稍后重试";
+                Log.e(TAG, "onError: " + e.getMessage());
             }
         } else {
             errorMsg = "e is null";

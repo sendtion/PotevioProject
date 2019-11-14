@@ -11,7 +11,6 @@ import com.sendtion.poteviodemo.util.InstallUtils;
 import com.sendtion.poteviodemo.util.SPUtils;
 import com.sendtion.poteviodemo.util.StatusBarUtil;
 import com.sendtion.poteviodemo.widget.HttpLoadingDialog;
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -24,7 +23,7 @@ import butterknife.ButterKnife;
 /**
  * Activity基类
  */
-public abstract class BaseActivity extends RxAppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
     private HttpLoadingDialog progressLoadingDialog;
     protected Map<Integer,String> analyst = new HashMap<>();
 

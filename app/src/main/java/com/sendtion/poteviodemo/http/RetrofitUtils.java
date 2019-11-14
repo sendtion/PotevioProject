@@ -19,16 +19,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitUtils {
     private static RetrofitUtils retrofitUtils;
-    private static final String BASE_URL = "https://www.wanandroid.com";
-    private static final int TIME_OUT = 30; //超时时间
 
     private RetrofitUtils(){
     }
 
     public static RetrofitUtils getInstance(){
-        if (retrofitUtils != null) {
+        if (retrofitUtils == null) {
             synchronized (RetrofitUtils.class){
-                if (retrofitUtils != null){
+                if (retrofitUtils == null){
                     retrofitUtils = new RetrofitUtils();
                 }
             }
@@ -47,7 +45,7 @@ public class RetrofitUtils {
     private Retrofit initRetrofit(OkHttpClient httpClient){
         return new Retrofit.Builder()
                 .client(httpClient)//设置自定义okHttp
-                .baseUrl(BASE_URL)//基地址
+                .baseUrl(HttpConfig.BASE_URL)//基地址
                 .addConverterFactory(GsonConverterFactory.create())//添加GSON解析
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())//添加Rxjava支持
                 .build();
@@ -59,9 +57,9 @@ public class RetrofitUtils {
     @NonNull
     private OkHttpClient initOkHttp(){
         return new OkHttpClient().newBuilder()
-                .readTimeout(TIME_OUT, TimeUnit.SECONDS)//设置读取超时时间
-                .writeTimeout(TIME_OUT, TimeUnit.SECONDS)//设置写入超时时间
-                .connectTimeout(TIME_OUT, TimeUnit.SECONDS)//设置请求超时时间
+                .readTimeout(HttpConfig.TIME_OUT, TimeUnit.SECONDS)//设置读取超时时间
+                .writeTimeout(HttpConfig.TIME_OUT, TimeUnit.SECONDS)//设置写入超时时间
+                .connectTimeout(HttpConfig.TIME_OUT, TimeUnit.SECONDS)//设置请求超时时间
                 //.addInterceptor(new HttpLoggingInterceptor())//添加打印拦截器
                 .addInterceptor(new LogInterceptor())
                 .addInterceptor(chain -> {
@@ -79,20 +77,24 @@ public class RetrofitUtils {
      * 获取UserAgent
      */
     private static String getUserAgent() {
-        String userAgent;
+        StringBuilder sb = new StringBuilder();
         try {
-            userAgent = WebSettings.getDefaultUserAgent(Utils.getApp());
-        } catch (Exception e) {
-            userAgent = System.getProperty("http.agent");
-        }
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0, length = userAgent.length(); i < length; i++) {
-            char c = userAgent.charAt(i);
-            if (c <= '\u001f' || c >= '\u007f') {
-                sb.append(String.format("\\u%04x", (int) c));
-            } else {
-                sb.append(c);
+            String userAgent;
+            try {
+                userAgent = WebSettings.getDefaultUserAgent(Utils.getApp());
+            } catch (Exception e) {
+                userAgent = System.getProperty("http.agent");
             }
+            for (int i = 0, length = userAgent.length(); i < length; i++) {
+                char c = userAgent.charAt(i);
+                if (c <= '\u001f' || c >= '\u007f') {
+                    sb.append(String.format("\\u%04x", (int) c));
+                } else {
+                    sb.append(c);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return sb.toString();
     }

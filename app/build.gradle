@@ -67,7 +67,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.core:core:1.2.0-beta01'
+    implementation 'androidx.core:core:1.2.0-beta02'
     implementation 'com.google.android.material:material:1.2.0-alpha01'
     testImplementation 'junit:junit:4.12'
     implementation 'androidx.multidex:multidex:2.0.1'
@@ -75,10 +75,11 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
-    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
+    //implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
+    implementation 'com.uber.autodispose:autodispose-android-archcomponents:1.4.0'
 
     implementation 'com.jakewharton:butterknife:10.2.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
