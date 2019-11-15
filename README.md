@@ -1,2 +1,2 @@
 # PotevioProject
-普天项目工程框架，初始版
+Android项目架构，MVP+Retrofit+RxJava2+OkHttp+AutoDispose+Butterknife+EventBus
