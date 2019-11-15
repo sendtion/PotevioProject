@@ -1,4 +1,4 @@
-package com.sendtion.poteviodemo;
+package com.sendtion.poteviodemo.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.multidex.MultiDex;
+
+import com.sendtion.poteviodemo.R;
 
 import java.io.File;
 

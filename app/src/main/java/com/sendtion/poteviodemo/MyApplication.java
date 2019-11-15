@@ -7,6 +7,9 @@ import android.util.Log;
 
 import androidx.multidex.MultiDex;
 
+import com.sendtion.poteviodemo.ui.activity.MainActivity;
+import com.sendtion.poteviodemo.ui.activity.LoadMultiDexActivity;
+import com.sendtion.poteviodemo.ui.activity.SplashActivity;
 import com.sendtion.poteviodemo.util.SystemUtils;
 import com.sendtion.poteviodemo.util.Utils;
 

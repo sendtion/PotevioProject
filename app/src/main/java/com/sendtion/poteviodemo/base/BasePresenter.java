@@ -1,4 +1,4 @@
-package com.sendtion.poteviodemo.mvp.presenter;
+package com.sendtion.poteviodemo.base;
 
 public interface BasePresenter {
 

@@ -1,4 +1,4 @@
-package com.sendtion.poteviodemo.adapter;
+package com.sendtion.poteviodemo.ui.adapter;
 
 import android.graphics.drawable.Drawable;
 import android.util.SparseArray;

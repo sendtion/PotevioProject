@@ -1,4 +1,4 @@
-package com.sendtion.poteviodemo.mvp.view;
+package com.sendtion.poteviodemo.base;
 
 /**
  * View基类

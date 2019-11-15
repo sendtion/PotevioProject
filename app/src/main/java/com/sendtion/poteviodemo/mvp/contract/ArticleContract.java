@@ -1,8 +1,8 @@
 package com.sendtion.poteviodemo.mvp.contract;
 
 import com.sendtion.poteviodemo.entry.ArticleDataEntry;
-import com.sendtion.poteviodemo.mvp.presenter.BasePresenter;
-import com.sendtion.poteviodemo.mvp.view.BaseView;
+import com.sendtion.poteviodemo.base.BasePresenter;
+import com.sendtion.poteviodemo.base.BaseView;
 
 public interface ArticleContract {
 

@@ -1,4 +1,4 @@
-package com.sendtion.poteviodemo;
+package com.sendtion.poteviodemo.base;
 
 import android.content.pm.ActivityInfo;
 import android.text.TextUtils;
@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.sendtion.poteviodemo.R;
 import com.sendtion.poteviodemo.util.ActivityUtils;
 import com.sendtion.poteviodemo.util.InstallUtils;
 import com.sendtion.poteviodemo.util.SPUtils;

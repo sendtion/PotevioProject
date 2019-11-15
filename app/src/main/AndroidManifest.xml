@@ -20,18 +20,18 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".LoadMultiDexActivity"
+            android:name=".ui.activity.LoadMultiDexActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:process=":multi_dex" />
-        <activity android:name=".SplashActivity"
+        <activity android:name=".ui.activity.SplashActivity"
             android:theme="@style/Theme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".ui.activity.MainActivity" />
     </application>
 
 </manifest>
