@@ -3,9 +3,7 @@ package com.sendtion.poteviodemo.base;
 /**
  * View基类
  */
-public interface BaseView<T> {
-
-    void setPresenter(T presenter);
+public interface BaseView {
 
     /**
      * 显示加载对话框
@@ -16,4 +14,9 @@ public interface BaseView<T> {
      * 隐藏加载对话框
      */
     void dismissLoading();
+
+    /**
+     * 发生错误
+     */
+    void onError(Throwable e);
 }

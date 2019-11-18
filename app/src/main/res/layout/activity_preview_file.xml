@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.comm.PreviewFileActivity">
+
+    <com.sendtion.poteviodemo.widget.TitleBarView
+        android:id="@+id/title_bar_web_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleBarBgColor="@color/color_f"
+        app:titleBarContent="文件预览" />
+
+    <RelativeLayout
+        android:id="@+id/rl_tbsView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

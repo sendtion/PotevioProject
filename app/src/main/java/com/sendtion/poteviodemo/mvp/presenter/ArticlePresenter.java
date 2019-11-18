@@ -12,7 +12,6 @@ public class ArticlePresenter implements ArticleContract.Presenter {
 
     public ArticlePresenter(ArticleContract.View view){
         this.mView = view;
-        mView.setPresenter(this);
         mModel = new ArticleModel(this, (LifecycleOwner) view);
     }
 
@@ -25,6 +24,7 @@ public class ArticlePresenter implements ArticleContract.Presenter {
     public void onError(Throwable e) {
         if (mView != null) {
             mView.dismissLoading();
+            mView.onError(e);
         }
     }
 

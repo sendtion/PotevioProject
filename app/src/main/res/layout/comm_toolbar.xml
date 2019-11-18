@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/comm_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/comm_toolbar_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:padding="@dimen/dp_20"
+                android:src="@drawable/ic_arrow_back_white_24dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/comm_toolbar_right_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawablePadding="@dimen/dp_10"
+                android:gravity="center"
+                android:padding="@dimen/dp_20"
+                android:text="已关注"
+                android:textColor="@color/gray_600"
+                android:textSize="@dimen/sp_24"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/comm_toolbar_right_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/dp_20"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/comm_toolbar_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/dp_100"
+            android:layout_marginRight="@dimen/dp_100"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
+            android:textColor="@color/gray_500"
+            android:textSize="@dimen/sp_20"
+            tools:text="标题标题标题标题标题标题标题标题标题标题标题标题" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/comm_toolbar_bottom_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/comm_line" />
+    </RelativeLayout>
+</LinearLayout>

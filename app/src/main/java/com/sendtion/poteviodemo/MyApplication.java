@@ -12,6 +12,8 @@ import com.sendtion.poteviodemo.ui.activity.LoadMultiDexActivity;
 import com.sendtion.poteviodemo.ui.activity.SplashActivity;
 import com.sendtion.poteviodemo.util.SystemUtils;
 import com.sendtion.poteviodemo.util.Utils;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 import java.io.File;
 
@@ -44,8 +46,19 @@ public class MyApplication extends Application {
             return;
         }
 
-        Utils.init(this);
         Log.d(TAG, "主进程 onCreate: 一些初始化操作");
+        Utils.init(this);
+
+        initUMeng();
+    }
+
+    private void initUMeng() {
+        //友盟初始化，在清单文件配置appKey和channel
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+        if (BuildConfig.DEBUG){
+            UMConfigure.setLogEnabled(true);
+        }
     }
 
     private void loadMultiDex(Context context) {

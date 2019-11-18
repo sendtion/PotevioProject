@@ -34,6 +34,7 @@ import retrofit2.Response;
 
 public class MainActivity extends BaseActivity implements BaseRecyclerAdapter.OnItemClickListener,
     ArticleContract.View {
+
     @BindView(R.id.list_home)
     RecyclerView mListHome;
 
@@ -45,11 +46,6 @@ public class MainActivity extends BaseActivity implements BaseRecyclerAdapter.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
-
-    @Override
-    protected void initStatusBar() {
-
     }
 
     @Override
@@ -96,6 +92,11 @@ public class MainActivity extends BaseActivity implements BaseRecyclerAdapter.On
 //        sendRequest3(service);
 //        sendRequest4();
         mPresenter.getArticleList(0);
+    }
+
+    @Override
+    protected void loadData() {
+
     }
 
     //发送请求
@@ -274,8 +275,8 @@ public class MainActivity extends BaseActivity implements BaseRecyclerAdapter.On
     }
 
     @Override
-    public void setPresenter(ArticleContract.Presenter presenter) {
-        this.mPresenter = presenter;
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -286,6 +287,11 @@ public class MainActivity extends BaseActivity implements BaseRecyclerAdapter.On
     @Override
     public void dismissLoading() {
         dismissProgressDialog();
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        showToast(e.getMessage());
     }
 
     @Override

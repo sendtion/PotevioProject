@@ -4,15 +4,11 @@ import android.content.pm.ActivityInfo;
 import android.text.TextUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
-import com.sendtion.poteviodemo.R;
 import com.sendtion.poteviodemo.util.ActivityUtils;
 import com.sendtion.poteviodemo.util.InstallUtils;
 import com.sendtion.poteviodemo.util.SPUtils;
-import com.sendtion.poteviodemo.util.StatusBarUtil;
 import com.sendtion.poteviodemo.widget.HttpLoadingDialog;
-import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -20,13 +16,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.ButterKnife;
+import es.dmoral.toasty.Toasty;
 
 /**
  * Activity基类
  */
 public abstract class BaseActivity extends AppCompatActivity {
     private HttpLoadingDialog progressLoadingDialog;
-    protected Map<Integer,String> analyst = new HashMap<>();
 
     protected void showProgressDialog(String msg) {
         if (progressLoadingDialog == null) {
@@ -54,6 +50,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    protected void showToast(String message){
+        Toasty.normal(this, message, Toasty.LENGTH_SHORT).show();
+    }
+
+    protected void showToastLong(String message){
+        Toasty.normal(this, message, Toasty.LENGTH_LONG).show();
+    }
+
     public void setContentView(int layoutId){
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.setContentView(layoutId);
@@ -62,6 +66,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         initStatusBar();
         initView();
         initData();
+        loadData();
     }
 
     private void initActivity(){
@@ -73,18 +78,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         //初始化ButterKnife
         ButterKnife.bind(this);
-    };
+    }
 
     protected void initStatusBar() {
         //此种方式，在MIUI上白色状态栏不会看不到文字
-        StatusBarUtil.addStatusBarView(this, ContextCompat.getColor(this, R.color.color_f));
-        StatusBarUtil.setStatusBar(this, false, false);
-        StatusBarUtil.setStatusTextColor(true, this);
+//        StatusBarUtil.addStatusBarView(this, ContextCompat.getColor(this, R.color.color_f));
+//        StatusBarUtil.setStatusBar(this, false, false);
+//        StatusBarUtil.setStatusTextColor(true, this);
     }
 
     protected abstract void initView();
 
     protected abstract void initData();
+
+    protected abstract void loadData();
 
     protected boolean isBindEventBus() {
         return false;
@@ -105,7 +112,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
         //判断是否需要安装新版本
         String newAppUrl = SPUtils.getInstance().getString("newAppUrl");
         if (!TextUtils.isEmpty(newAppUrl)){
@@ -113,21 +119,4 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
-
-    protected void analystEvent(Integer viewId){
-        if (analyst.containsKey(viewId)) {
-            MobclickAgent.onEvent(this,analyst.get(viewId));
-        }
-    }
-
-    protected void analystEvent(String event){
-        if (!TextUtils.isEmpty(event)) {
-            MobclickAgent.onEvent(this,event);
-        }
-    }
 }
