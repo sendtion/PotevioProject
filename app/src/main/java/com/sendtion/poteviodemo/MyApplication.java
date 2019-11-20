@@ -7,6 +7,7 @@ import android.util.Log;
 
 import androidx.multidex.MultiDex;
 
+import com.billy.android.swipe.SmartSwipeBack;
 import com.sendtion.poteviodemo.ui.activity.MainActivity;
 import com.sendtion.poteviodemo.ui.activity.LoadMultiDexActivity;
 import com.sendtion.poteviodemo.ui.activity.SplashActivity;
@@ -50,6 +51,12 @@ public class MyApplication extends Application {
         Utils.init(this);
 
         initUMeng();
+
+        //SmartSwipeBack.activityBezierBack(this, null);    //仿小米MIUI系统的贝塞尔曲线返回效果
+        //SmartSwipeBack.activityStayBack(this, null);        //仿手机QQ的手势滑动返回
+        //SmartSwipeBack.activitySlidingBack(this, null);    //仿微信带联动效果的透明侧滑返回
+        //SmartSwipeBack.activityDoorBack(this, null);        //侧滑开门样式关闭activity
+        SmartSwipeBack.activityShuttersBack(this, null);    //侧滑百叶窗样式关闭activity
     }
 
     private void initUMeng() {

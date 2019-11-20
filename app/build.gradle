@@ -92,4 +92,8 @@ dependencies {
     implementation 'com.github.GrenderG:Toasty:1.4.2'
     implementation 'com.blankj:utilcodex:1.25.9'
     implementation 'com.tencent.tbs.tbssdk:sdk:43697'
+
+    //https://qibilly.com/SmartSwipe-tutorial/
+    implementation 'com.billy.android:smart-swipe:1.0.8'
+    implementation 'com.billy.android:smart-swipe-x:1.0.0'
 }

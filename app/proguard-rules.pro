@@ -129,3 +129,5 @@ public static java.lang.String TABLENAME;
 -dontwarn com.google.android.material.**
 -dontnote com.google.android.material.**
 -dontwarn androidx.**
+
+-keep class com.gyf.cactus.entity.* {*;}
