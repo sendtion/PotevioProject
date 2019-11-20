@@ -4,16 +4,16 @@ import android.content.pm.ActivityInfo;
 import android.text.TextUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.sendtion.poteviodemo.R;
 import com.sendtion.poteviodemo.util.ActivityUtils;
 import com.sendtion.poteviodemo.util.InstallUtils;
 import com.sendtion.poteviodemo.util.SPUtils;
+import com.sendtion.poteviodemo.util.StatusBarUtil;
 import com.sendtion.poteviodemo.widget.HttpLoadingDialog;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
@@ -82,9 +82,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void initStatusBar() {
         //此种方式，在MIUI上白色状态栏不会看不到文字
-//        StatusBarUtil.addStatusBarView(this, ContextCompat.getColor(this, R.color.color_f));
-//        StatusBarUtil.setStatusBar(this, false, false);
-//        StatusBarUtil.setStatusTextColor(true, this);
+        StatusBarUtil.addStatusBarView(this, ContextCompat.getColor(this, R.color.color_f));
+        StatusBarUtil.setStatusBar(this, false, false);
+        StatusBarUtil.setStatusTextColor(true, this);
     }
 
     protected abstract void initView();

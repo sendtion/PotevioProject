@@ -5,7 +5,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.sendtion.poteviodemo.R;
+import com.badoo.mobile.util.WeakHandler;
+import com.sendtion.poteviodemo.util.StatusBarUtils;
 
 /**
  * 启动页
@@ -14,10 +15,16 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
+        getWindow().setBackgroundDrawable(null);
+        //setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
 
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
+        StatusBarUtils.setFullScreen(this);
+
+        new WeakHandler().postDelayed(() -> {
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }, 300);
     }
 }
